@@ -86,6 +86,23 @@ $(document).ready(function () {
         log(`${userName} left`, { prepend: true });
     });
 
+    socket.on('disconnect', () => {
+        log('you have been disconnected', { prepend: true });
+    });
+
+    socket.on('reconnect', () => {
+        log('you have been reconnected', { prepend: true });
+        if (userName) {
+            socket.emit('add user', {
+                userName: userName
+            });
+        }
+    });
+
+    socket.on('reconnect_error', () => {
+        log('attempt to reconnect has failed', { prepend: true });
+    });
+
     const statusDefault = $status.text();
     const setStatus = function (s) {
         $status.text(s).addClass('status');
