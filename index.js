@@ -52,10 +52,9 @@ mongoClient.connect(
         if (err) 
             throw err;
         console.log('database connection established.');
+        let chat = mongoClient.db('jacob').collection('chatroom');
 
         socketClient.on('connection', function (socket) {
-            let chat = mongoClient.db('jacob').collection('chatroom');
-            
             socket.on('connect', function() {
                 chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
                     if (err) 
