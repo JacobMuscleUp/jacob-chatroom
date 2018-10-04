@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Socket.IO Chat Example</title>
+  <link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" 
+    integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" 
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <ul class="pages">
+    <li class="chat page">
+      <div class="chatArea">
+        <ul class="infos">
+          <li class="greeting"></li>
+          <li class="userCount"></li>
+        </ul>
+        <button id="clearHistory" class="btn btn-danger">Clear History</button>
+        <div class="status"></div>
+        <ul class="messages">
+          
+        </ul>
+      </div>
+      <input class="inputMessage" placeholder="Type here..."/>
+    </li>
+    <li class="login page">
+      <div class="form">
+        <h3 class="title">What's your name?</h3>
+        <input class="userNameInput" type="text" maxlength="14" />
+      </div>
+    </li>
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <script src="./main.js"></script>
+
+</body>
+</html>
