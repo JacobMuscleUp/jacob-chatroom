@@ -7,6 +7,27 @@ require('dotenv').config();
 var numUsers = 0;
 */
 
+'use strict';
+
+const mongoClient = require('mongodb').MongoClient;
+const express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
+
+require('dotenv').config();
+
+const PORT = process.env.PORT || 3000;
+//const INDEX = path.join(__dirname, 'index.html');
+
+const server = express()
+    .use(express.static(path.join(__dirname, 'public')))
+  //.use((req, res) => res.sendFile(INDEX) )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const socketClient = socketIO(server);
+
+var numUsers = 0;
+/*
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
@@ -23,7 +44,7 @@ server.listen(3000, () => {
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
-
+*/
 mongoClient.connect(
     `mongodb://${process.env.USER_NAME}:${process.env.USER_PW}@cluster0-shard-00-00-novoa.mongodb.net:27017,cluster0-shard-00-01-novoa.mongodb.net:27017,cluster0-shard-00-02-novoa.mongodb.net:27017/test?ssl=true&replicaSet=cluster0-shard-0&authSource=admin&retryWrites=true`,
     { useNewUrlParser: true },
