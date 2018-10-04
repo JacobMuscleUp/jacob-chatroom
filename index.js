@@ -55,13 +55,11 @@ mongoClient.connect(
         let chat = mongoClient.db('jacob').collection('chatroom');
 
         socketClient.on('connection', function (socket) {
-            socket.on('connect', function() {
-                chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
-                    if (err) 
-                        throw err;
-                    socket.emit('output', {
-                        msgArray: res
-                    });
+            chat.find().limit(100).sort({ _id: 1 }).toArray(function (err, res) {
+                if (err) 
+                    throw err;
+                socket.emit('output', {
+                    msgArray: res
                 });
             });
             
