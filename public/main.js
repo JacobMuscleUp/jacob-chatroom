@@ -38,7 +38,8 @@ $(document).ready(function () {
                     $clearHistory.fadeOut();
 
                 socket.emit('add user', {
-                    userName: userName
+                    userName: userName,
+                    reconnect: false
                 });
             }
         }
@@ -94,7 +95,8 @@ $(document).ready(function () {
         log('you have been reconnected', { prepend: true });
         if (userName) {
             socket.emit('add user', {
-                userName: userName
+                userName: userName,
+                reconnect: true
             });
         }
     });
