@@ -91,7 +91,7 @@ mongoClient.connect(
 
             socket.on('disconnect', function() {
                 //if (!socket.userName) return; 
-                
+
                 --numUsers;
 
                 socket.emit('user count updated', {
@@ -104,6 +104,10 @@ mongoClient.connect(
                 socket.broadcast.emit('user removed', {
                     userName: socket.userName
                 });
+            });
+
+            socket.on('disconnecting', function(reason) {
+                socket.emit('disconnect');
             });
 
             socket.on('clear history', function (data) {
