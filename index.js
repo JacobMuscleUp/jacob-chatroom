@@ -90,7 +90,7 @@ mongoClient.connect(
             });
 
             socket.on('disconnect', function() {
-                if (!socket.userName) return; 
+                //if (!socket.userName) return; 
                 --numUsers;
 
                 socket.emit('user count updated', {
