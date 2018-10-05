@@ -21,30 +21,13 @@ const PORT = process.env.PORT || 3000;
 
 const server = express()
     .use(express.static(path.join(__dirname, 'public')))
-  //.use((req, res) => res.sendFile(INDEX) )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+    //.use((req, res) => res.sendFile(INDEX) )
+    .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const socketClient = socketIO(server);
 
 var numUsers = 0;
-/*
-const express = require('express');
-const app = express();
-const server = require('http').createServer(app);
-const path = require('path');
-const mongoClient = require('mongodb').MongoClient;
-const socketClient = require('socket.io')(server);
 
-require('dotenv').config();
-
-var numUsers = 0;
-
-server.listen(3000, () => {
-    console.log('Server listening at port %d', 3000);
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
-*/
 mongoClient.connect(
     `mongodb://${process.env.USER_NAME}:${process.env.USER_PW}@cluster0-shard-00-00-novoa.mongodb.net:27017,cluster0-shard-00-01-novoa.mongodb.net:27017,cluster0-shard-00-02-novoa.mongodb.net:27017/test?ssl=true&replicaSet=cluster0-shard-0&authSource=admin&retryWrites=true`,
     { useNewUrlParser: true },
