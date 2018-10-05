@@ -5,10 +5,16 @@ $(document).ready(function () {
     if (socket === undefined) return;
 
     const FADE_TIME = 1000;
+    var COLORS = [
+        '#e21400', '#91580f', '#f8a700', '#f78b00',
+        '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
+        '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
+    ];
 
     const $window = $(window);
     const $chatPage = $('.chat.page');
     const $loginPage = $('.login.page');
+    const $notification = $('.notification');
     const $messages = $('.messages');
     const $inputMessage = $('.inputMessage');
     const $status = $('.status');
@@ -50,8 +56,7 @@ $(document).ready(function () {
 
     socket.on('output', function (data) {
         const { msgArray, init } = data;
-        /*if ((!userName || !init) 
-            && msgArray.length) {*/
+        
         if (msgArray.length) {
             if (init)
                 $messages.empty();
@@ -82,12 +87,22 @@ $(document).ready(function () {
 
     socket.on('user added', (data) => {
         const { userName } = data;
-        log(`${userName} joined`, { prepend: true });
+        log(`${userName} joined`, { 
+            prepend: true,
+            modifier: function() {// this refers to elem
+                this.css('color', getUserColor(userName));
+            }
+        });
     });
 
     socket.on('user removed', (data) => {
         const { userName } = data;
-        log(`${userName} left`, { prepend: true });
+        log(`${userName} left`, {
+            prepend: true,
+            modifier: function () {// this refers to elem
+                this.css('color', getUserColor(userName));
+            }
+        });
     });
 
     socket.on('disconnect', () => {
@@ -119,17 +134,22 @@ $(document).ready(function () {
     }
 
     function log(msg, options) {
+        const { modifier } = options;
         var $elem = $('<li>').text(msg).addClass('log');
-        addMessageElement($elem, options);
+        if (modifier)
+            modifier.apply($elem);
+
+        addMessageElement($notification, $elem, options);
     }
 
-    function addChatMessage(name, msg) {
-        var $elem = $('<li>').text(`${name}: ${msg}`);
-        addMessageElement($elem, { prepend: true });
+    function addChatMessage(userName, msg) {
+        var $elem = $('<li>').text(`${userName}: ${msg}`).css('color', getUserColor(userName));
+        addMessageElement($messages, $elem, { prepend: true });
     }
 
-    const addMessageElement = (el, options) => {
-        var $el = $(el);
+    const addMessageElement = (target, elem, options) => {
+        const $target = $(target);
+        const $elem = $(elem);
 
         if (!options)
             options = {};
@@ -139,11 +159,21 @@ $(document).ready(function () {
             options.prepend = false;
 
         if (options.fade)
-            $el.hide().fadeIn(FADE_TIME);
+            $elem.hide().fadeIn(FADE_TIME);
 
         if (options.prepend)
-            $messages.prepend($el);
+            $target.prepend($elem);
         else
-            $messages.append($el);
+            $target.append($elem);
     }
+
+    const getUserColor = (userName) => {
+        // Compute hash code
+        var hash = 7;
+        for (var i = 0; i < userName.length; i++) 
+           hash = userName.charCodeAt(i) + (hash << 5) - hash;
+        // Calculate color
+        var index = Math.abs(hash % COLORS.length);
+        return COLORS[index];
+      }
 });
