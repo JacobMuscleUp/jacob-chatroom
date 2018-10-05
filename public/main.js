@@ -50,8 +50,11 @@ $(document).ready(function () {
 
     socket.on('output', function (data) {
         const { msgArray, init } = data;
-        if ((!userName || !init) 
-            && msgArray.length) {
+        /*if ((!userName || !init) 
+            && msgArray.length) {*/
+        if (msgArray.length) {
+            if (init)
+                $messages.empty();
             for (var i = 0; i < msgArray.length; ++i) {
                 addChatMessage(msgArray[i].name, msgArray[i].message);
                 //var message = document.createElement('div');
