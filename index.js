@@ -42,7 +42,8 @@ mongoClient.connect(
                 if (err) 
                     throw err;
                 socket.emit('output', {
-                    msgArray: res
+                    msgArray: res,
+                    init: true
                 });
             });
             
@@ -55,10 +56,12 @@ mongoClient.connect(
                 else {
                     chat.insert({ name: name, message: message }, function () {
                         socket.emit('output', {
-                            msgArray: [data]
+                            msgArray: [data],
+                            init: false
                         });
                         socket.broadcast.emit('output', {
-                            msgArray: [data]
+                            msgArray: [data],
+                            init: false
                         });
 
                         socket.emit('status', {

@@ -49,10 +49,9 @@ $(document).ready(function () {
     });
 
     socket.on('output', function (data) {
-        if (userName) return;
-        
-        const { msgArray } = data;
-        if (msgArray.length) {
+        const { msgArray, init } = data;
+        if ((!userName || !init) 
+            && msgArray.length) {
             for (var i = 0; i < msgArray.length; ++i) {
                 addChatMessage(msgArray[i].name, msgArray[i].message);
                 //var message = document.createElement('div');
