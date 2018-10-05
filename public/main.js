@@ -5,7 +5,7 @@ $(document).ready(function () {
     if (socket === undefined) return;
 
     const FADE_TIME = 1000;
-    var COLORS = [
+    const COLORS = [
         '#e21400', '#91580f', '#f8a700', '#f78b00',
         '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
         '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
@@ -71,13 +71,14 @@ $(document).ready(function () {
     });
 
     socket.on('status', function (data) {
-        setStatus((typeof data === 'object') ? data.message : data);
+        setStatus(data.message);
         if (data.clear)
             $inputMessage.val('');
     });
 
     socket.on('history cleared', function () {
         $messages.empty();
+        log('the admin has cleared the chat history', { prepend: true });
     });
 
     socket.on('user count updated', (data) => {

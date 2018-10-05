@@ -51,7 +51,9 @@ mongoClient.connect(
                 const { name, message } = data;
 
                 if (name == '' || message == '') {
-                    socket.emit('status', 'Please enter a name and message');
+                    socket.emit('status', {
+                        message: 'please enter a name and message'
+                    });
                 } 
                 else {
                     chat.insert({ name: name, message: message }, function () {
@@ -65,7 +67,7 @@ mongoClient.connect(
                         });
 
                         socket.emit('status', {
-                            message: 'Message sent',
+                            message: 'message sent',
                             clear: true
                         });
                     });
