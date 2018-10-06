@@ -1,12 +1,3 @@
-/*
-const mongoClient = require('mongodb').MongoClient;
-const socketClient = require('socket.io').listen(4000).sockets;
-
-require('dotenv').config();
-
-var numUsers = 0;
-*/
-
 'use strict';
 
 const mongoClient = require('mongodb').MongoClient;
@@ -22,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const server = express()
     .use(express.static(path.join(__dirname, 'public')))
     //.use((req, res) => res.sendFile(INDEX) )
-    .listen(PORT, () => console.log(`Listening on ${PORT}`));
+    .listen(PORT, () => console.log(`Listening at http://localhost:${PORT}`));
 
 const socketClient = socketIO(server);
 
